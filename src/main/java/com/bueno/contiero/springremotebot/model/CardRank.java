@@ -18,37 +18,44 @@
  *  along with CTruco.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package model;
+package com.bueno.contiero.springremotebot.model;
 
 import java.util.Arrays;
 
-public enum CardSuit {
-    HIDDEN("X", 0),
-    DIAMONDS("D", 1),
-    SPADES("S", 2),
-    HEARTS("H", 3),
-    CLUBS("C", 4);
+public enum CardRank {
+    HIDDEN(0, 'X'), FOUR(1, '4'), FIVE(2, '5'),
+    SIX(3, '6'), SEVEN(4, '7'), QUEEN(5, 'Q'),
+    JACK(6, 'J'), KING(7, 'K'), ACE(8, 'A'),
+    TWO(9, '2'), THREE(10, '3');
 
-    private final String symbol;
-    private final int ordinalValue;
+    private final int value;
+    private final char symbol;
 
-    CardSuit(String symbol, int ordinalValue) {
+    CardRank(int value, char symbol) {
+        this.value = value;
         this.symbol = symbol;
-        this.ordinalValue = ordinalValue;
     }
 
-    int value() {
-        return ordinalValue;
+    public int value() {
+        return value;
     }
 
-    public static CardSuit ofSymbol(String symbol){
+    public CardRank next() {
+        return switch (value){
+            case 0 -> HIDDEN;
+            case 10 -> FOUR;
+            default -> values()[value + 1];
+        };
+    }
+
+    public static CardRank ofSymbol(String symbol){
         return Arrays.stream(values())
-                .filter(suit -> suit.symbol.equals(symbol))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown suit symbol"));
+                .filter(rank -> String.valueOf(rank.symbol).equals(symbol))
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown rank symbol"));
     }
 
     @Override
     public String toString() {
-        return symbol;
+        return String.valueOf(symbol);
     }
 }

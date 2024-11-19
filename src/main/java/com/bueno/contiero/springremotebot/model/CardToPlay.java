@@ -18,7 +18,7 @@
  *  along with CTruco.  If not, see <https://www.gnu.org/licenses/>
  */
 
-package model;
+package com.bueno.contiero.springremotebot.model;
 
 import java.util.Objects;
 
